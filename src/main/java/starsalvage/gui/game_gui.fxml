@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<BorderPane style="-fx-background-color: #272727" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="starsalvage.gui.MasterController">
+    <!-- Bottom: controls bar spanning full width -->
+    <bottom>
+        <HBox style="-fx-padding: 10; -fx-spacing: 15">
+
+            <!-- Directional pad anchored left -->
+            <GridPane hgap="4" vgap="4">
+                <columnConstraints>
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+                <Button fx:id="upButton"    text="↑" onAction="#onUp"    prefWidth="60" prefHeight="50" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                        style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a; -fx-font-size: 20;"/>
+                <Button fx:id="leftButton"  text="←" onAction="#onLeft"  prefWidth="60" prefHeight="50" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                        style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a; -fx-font-size: 20;"/>
+                <Button fx:id="downButton"  text="↓" onAction="#onDown"  prefWidth="60" prefHeight="50" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                        style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a; -fx-font-size: 20;"/>
+                <Button fx:id="rightButton" text="→" onAction="#onRight" prefWidth="60" prefHeight="50" GridPane.columnIndex="2" GridPane.rowIndex="1"
+                        style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a; -fx-font-size: 20;"/>
+            </GridPane>
+
+            <!-- Spacer -->
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Action and system buttons anchored right -->
+            <HBox spacing="5">
+                <VBox spacing="5" prefWidth="180">
+                    <Button fx:id="waitButton" text="Wait"  onAction="#onWait"  maxWidth="Infinity"
+                            style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a"/>
+                    <Button fx:id="drillButton" text="Drill" onAction="#onDrill" maxWidth="Infinity"
+                            style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a"/>
+                    <Button fx:id="undoButton" text="Undo"  onAction="#onUndo"  maxWidth="Infinity"
+                            style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a"/>
+                </VBox>
+                <VBox spacing="5" prefWidth="180">
+                    <Button fx:id="saveButton" text="Save" onAction="#onSave" maxWidth="Infinity"
+                            style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a"/>
+                    <Button fx:id="loadButton" text="Load" onAction="#onLoad" maxWidth="Infinity"
+                            style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a"/>
+                    <Button fx:id="helpButton" text="Help" onAction="#onHelp" maxWidth="Infinity"
+                            style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #4a4a4a"/>
+                </VBox>
+            </HBox>
+
+        </HBox>
+    </bottom>
+
+    <center>
+        <BorderPane prefHeight="550.0" prefWidth="800.0">
+
+            <center>
+                <StackPane style="-fx-background-color: #181818;">
+                    <GridPane fx:id="gameGrid" prefWidth="550.0" style="-fx-border-color: #444444; -fx-border-width: 1"/>
+                    <Label fx:id="gameEndLabel" style="-fx-font-size: 48px; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <StackPane fx:id="startOverlay" style="-fx-background-color: rgba(0,0,0,0.7);">
+                        <VBox alignment="CENTER" spacing="16"
+                              style="-fx-background-color: #4a4a4a; -fx-padding: 30;">
+                            <Label text="Choose Difficulty"
+                                   style="-fx-text-fill: white; -fx-font-size: 22; -fx-font-weight: bold;"/>
+
+                            <HBox alignment="CENTER" spacing="20">
+                                <Button text="↓" fx:id="difficultyDownButton" onAction="#onDifficultyDown" prefWidth="50" prefHeight="50"
+                                        style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #272727; -fx-font-size: 20;"/>
+                                <Label fx:id="difficultyLabel" text="3" minWidth="40" alignment="CENTER"
+                                       style="-fx-text-fill: white; -fx-font-size: 36; -fx-font-weight: bold;"/>
+                                <Button text="↑" fx:id="difficultyUpButton" onAction="#onDifficultyUp" prefWidth="50" prefHeight="50"
+                                        style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #272727; -fx-font-size: 20;"/>
+                            </HBox>
+
+                            <Button text="Start" fx:id="startButton" onAction="#onStart" maxWidth="200" maxHeight="100"
+                                    style="-fx-background-radius: 8; -fx-text-fill: white; -fx-background-color: #2e7d32; -fx-font-size: 16;"/>
+                        </VBox>
+                    </StackPane>
+                </StackPane>
+            </center>
+            <right>
+                <StackPane prefWidth="250.0">
+                    <VBox fx:id="rightPanel" prefWidth="250.0" style="-fx-background-color: #272727; -fx-spacing: 4;">
+                        <padding>
+                            <Insets topRightBottomLeft="12"/>  <!-- outer edges only -->
+                        </padding>
+                        <!-- Top Scores -->
+                        <VBox fx:id="highscoresPanel" style="-fx-background-color: #4a4a4a; -fx-background-radius: 8; -fx-padding: 10; -fx-spacing: 6;">
+                            <Label text="HIGH SCORES" style="-fx-text-fill: #aaaaaa; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                            <Label fx:id="highscoresLabel" wrapText="true" style="-fx-text-fill: #dddddd; -fx-font-size: 14;" />
+                        </VBox>
+
+                        <VBox fx:id="gameStatusPanel"
+                              style="-fx-background-color: #4a4a4a; -fx-background-radius: 8; -fx-padding: 10; -fx-spacing: 6;">
+                            <Label text="STATUS" style="-fx-text-fill: #aaaaaa; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                            <Label fx:id="gameStatusLabel" wrapText="true"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                        </VBox>
+
+                        <VBox fx:id="helpPanel"
+                              style="-fx-background-color: #4a4a4a; -fx-background-radius: 8; -fx-padding: 10; -fx-spacing: 6;">
+                            <Label text="HELP" style="-fx-text-fill: #aaaaaa; -fx-font-size: 11; -fx-font-weight: bold;"/>
+                            <Label wrapText="true" text="• Navigate your ship to the wormhole using the arrow keys"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                            <Label wrapText="true" text="• Use drill charges to destroy asteroids but don't waste them!"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                            <Label wrapText="true" text="• Use the wait button to wait for moving obstacles to pass"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                            <Label wrapText="true" text="• Use the undo button to undo up to 5 moves"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                            <Label wrapText="true" text="• After entering a wormhole, you will advance to the next sector"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                            <Label wrapText="true" text="• Enter the wormhole on sector two to win!"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                            <Label wrapText="true" text="• Run out of steps or HP and you lose"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                            <Label wrapText="true" text="• Regain HP with hull patches"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                            <Label wrapText="true" text="• Have fun!"
+                                   style="-fx-text-fill: #dddddd; -fx-font-size: 13;"/>
+                        </VBox>
+
+                        <Region prefHeight="10" />
+                    </VBox>
+                </StackPane>
+            </right>
+        </BorderPane>
+    </center>
+</BorderPane>
